@@ -1,0 +1,101 @@
+# [프로젝트명] — CLAUDE.md
+
+> table of contents. 200줄 이하 유지.
+> 세부 내용은 docs/ 와 .claude/skills/bstack/skills/ 에 위임.
+
+---
+
+## 프로젝트 컨텍스트
+
+- **스택**: Java 21, Spring Boot 3.x, JPA/Hibernate, [MySQL | PostgreSQL], [AWS | GCP]
+- **빌드**: `./mvnw verify` (또는 `./gradlew check`)
+- **모듈**: [monolith | multi-module — 모듈명 나열]
+- **커버리지 목표**: 80%+ (`target/site/jacoco/index.html`)
+- **주요 외부 의존**: [예: Kafka, Redis, S3 등]
+
+---
+
+## 아키텍처 레이어 제약
+
+의존성 방향 (단방향): `Domain → Repository(interface) → Service → Controller`
+
+**절대 금지**:
+- Controller에서 Repository 직접 접근
+- Entity를 API 응답 DTO로 직접 노출
+- `@Transactional`을 Controller 레이어에 선언
+- Service 간 순환 의존
+- 테스트 없이 공개 API(스펙) 변경
+- docs/ 수정 없이 아키텍처 변경
+
+레이어 위반은 ArchUnit(`src/test/.../ArchitectureTest.java`)이 CI에서 자동 차단.
+위반 발견 시 → `/arch-guard` 호출.
+
+---
+
+## bstack 스킬 라우팅
+
+스킬 호출 전 반드시: `docs/ARCHITECTURE.md`, `docs/lessons/failure-log.json`, 관련 `docs/specs/*.md` 먼저 읽기.
+
+**탐색 / 계획**
+
+| 요청 유형 | 스킬 |
+|---|---|
+| 새 기능 아이디어, 접근법 탐색 | `/brainstorming` — 승인 전 구현 불가 |
+| 기존 코드 레이어/모듈 검토 | `/architect` |
+| 스펙 / ADR 문서화 | `/spec` |
+| 스펙 → TDD 실행 계획 | `/writing-plans` |
+| 계획 분산 실행 | `/subagent-driven` |
+
+**도메인**
+
+| 요청 유형 | 스킬 |
+|---|---|
+| Spring Boot 패턴 / 설정 | `/spring-core` |
+| JPA / 트랜잭션 / 쿼리 | `/persistence` |
+| REST API 설계 검토 | `/api-review` |
+| 보안 / 인증 / 인가 | `/security` |
+| 테스트 작성 / 전략 | `/test` |
+| 성능 / N+1 / 비동기 | `/perf` |
+| 보안+동시성 통합 감사 | `/audit` |
+| ArchUnit / 레이어 위반 | `/arch-guard` |
+
+**실패 / 피드백**
+
+| 요청 유형 | 스킬 |
+|---|---|
+| 버그 탐색 → failure-log 기록 | `/investigate` |
+| 실패 → SKILL.md 업데이트 | `/writing-skills` |
+| PR / 배포 전 검토 | `/ship` |
+
+---
+
+## 완료 조건 (모든 작업 공통)
+
+- [ ] `./mvnw verify` (또는 `./gradlew check`) 통과
+- [ ] 커버리지 80%+
+- [ ] ArchUnit 통과
+- [ ] 관련 docs/ 업데이트 (아키텍처 변경 시)
+- [ ] 장기 작업이면 `docs/progress/claude-progress.json` 갱신
+
+---
+
+## Context Rot 방지
+
+- 테스트 성공: `Tests: N passed` 한 줄만
+- 테스트 실패: 실패 케이스 전체 출력
+- 빌드 성공: `BUILD SUCCESS` 한 줄
+
+---
+
+## 참조
+
+| 문서 | 위치 |
+|---|---|
+| 아키텍처 개요 | `docs/ARCHITECTURE.md` |
+| 레이어 규칙 상세 | `docs/LAYER_RULES.md` |
+| 자주 발생하는 함정 | `docs/RED_FLAGS.md` |
+| 기능 스펙 | `docs/specs/` |
+| TDD 실행 계획 | `docs/plans/` |
+| 실패 케이스 기록 | `docs/lessons/failure-log.json` |
+| 누적 교훈 | `docs/lessons/LESSONS_LEARNED.md` |
+| 진행 상태 (장기 작업) | `docs/progress/claude-progress.json` |

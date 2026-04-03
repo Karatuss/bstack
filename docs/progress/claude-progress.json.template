@@ -1,0 +1,78 @@
+{
+  "_comment": "장기 작업 시 세션 간 상태 추적용. 파일명을 claude-progress.json으로 복사 후 사용.",
+  "_usage": "각 단계 완료 시 Claude가 이 파일을 갱신. Markdown보다 구조적이어서 잘못된 수정 가능성 낮음.",
+
+  "task": {
+    "title": "[작업 제목]",
+    "spec": "docs/specs/FEAT-NNN-name.md",
+    "startedAt": "2024-MM-DD",
+    "updatedAt": "2024-MM-DD"
+  },
+
+  "status": "in_progress",
+
+  "phases": [
+    {
+      "name": "domain-model",
+      "description": "도메인 모델 (Entity, VO) 구현",
+      "status": "completed",
+      "completedAt": "2024-MM-DD",
+      "files": [
+        "src/main/java/com/example/domain/model/Order.java"
+      ]
+    },
+    {
+      "name": "repository",
+      "description": "Repository 인터페이스 및 구현체",
+      "status": "in_progress",
+      "files": []
+    },
+    {
+      "name": "service",
+      "description": "Application Service 구현",
+      "status": "pending",
+      "files": []
+    },
+    {
+      "name": "controller",
+      "description": "REST Controller + DTO",
+      "status": "pending",
+      "files": []
+    },
+    {
+      "name": "tests",
+      "description": "단위/통합 테스트 (커버리지 80%+)",
+      "status": "pending",
+      "files": []
+    },
+    {
+      "name": "migration",
+      "description": "DB 마이그레이션 스크립트",
+      "status": "pending",
+      "files": []
+    }
+  ],
+
+  "blockers": [],
+
+  "failures": [
+    {
+      "_comment": "이 작업 중 발생한 실패. docs/lessons/failure-log.json에도 FL-NNN으로 기록됨.",
+      "taskName": "예: repository",
+      "failureId": "FL-NNN",
+      "resolved": false
+    }
+  ],
+
+  "notes": [
+    "세션 간 인계 사항을 여기에 기록"
+  ],
+
+  "completionCriteria": {
+    "buildPasses": false,
+    "coverageAbove80": false,
+    "archUnitPasses": false,
+    "docsUpdated": false,
+    "failureLogUpdated": false
+  }
+}

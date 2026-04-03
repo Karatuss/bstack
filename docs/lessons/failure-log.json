@@ -1,0 +1,14 @@
+{
+  "_schema": {
+    "id": "FL-NNN 형식 (FL-001, FL-002...)",
+    "date": "YYYY-MM-DD",
+    "skill": "실패가 발생한 스킬 이름 (persistence, security, test 등)",
+    "symptom": "사용자 또는 에이전트가 관찰한 현상",
+    "cause": "조사를 통해 확정된 근본 원인",
+    "attempted": ["시도했으나 실패한 해결책 목록"],
+    "resolution": "실제로 문제를 해결한 방법",
+    "preventionRule": "다음 에이전트에게 전달할 예방 규칙 (SKILL.md에 추가될 내용)",
+    "addedToSkill": "writing-skills가 SKILL.md에 반영 후 true로 변경"
+  },
+  "failures": []
+}

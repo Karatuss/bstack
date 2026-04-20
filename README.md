@@ -10,7 +10,7 @@ Java/Spring Boot 백엔드 프로젝트를 위한 Claude Code 하네스.
 ## 특징
 
 - **코드 수정 승인 워크플로우** — 수정 요청 시 계획 제시 → 사용자 승인 → 구현 순서 강제
-- **12개 도메인 스킬** — architect, persistence, security, test 등 백엔드 고유 복잡도를 각 skill로 분리
+- **17개 도메인 스킬** — architect, persistence, security, test 등 백엔드 고유 복잡도를 각 skill로 분리
 - **CLAUDE.md 템플릿** — 200줄 이하 유지, 기본 원칙 + 라우팅 + 아키텍처 제약 + docs/ 포인터
 - **ArchUnit 연동** — 레이어 제약을 코드로 강제, 위반 시 에러 메시지에 수정 방법 내장
 - **Context Rot 방지** — 테스트 성공은 한 줄, 실패만 상세 출력
@@ -28,18 +28,23 @@ bstack/
 ├── setup                             # 설치 스크립트
 │
 ├── skills/
+│   ├── brainstorming/SKILL.md        # 새 기능 아이디어, 접근법 탐색
 │   ├── architect/SKILL.md            # DDD, 모듈 경계, 레이어 설계
+│   ├── spec/SKILL.md                 # 스펙 문서, ADR 작성
+│   ├── writing-plans/SKILL.md        # 스펙 → TDD 실행 계획
+│   ├── subagent-driven/SKILL.md      # 계획 파일 분산 실행
+│   ├── conventions/SKILL.md          # 구현 전 컨벤션 확인
 │   ├── spring-core/SKILL.md          # Bean, 프로파일, 자동구성
 │   ├── persistence/SKILL.md          # JPA, N+1 탐지, 트랜잭션 경계
 │   ├── api-review/SKILL.md           # REST 계약, 에러 포맷, 버저닝
 │   ├── security/SKILL.md             # Spring Security, JWT, OAuth2
 │   ├── test/SKILL.md                 # TestContainers, Mockito, 커버리지
-│   ├── investigate/SKILL.md          # 버그 탐색 (스코프 freeze 원칙)
-│   ├── ship/SKILL.md                 # PR 체크리스트, 릴리즈 gate
 │   ├── perf/SKILL.md                 # N+1, HikariCP, 비동기 smell
 │   ├── audit/SKILL.md                # 보안 + 동시성 통합 감사
-│   ├── spec/SKILL.md                 # 스펙 문서, ADR 작성
-│   └── arch-guard/SKILL.md           # ArchUnit 제약 코드화
+│   ├── arch-guard/SKILL.md           # ArchUnit 제약 코드화
+│   ├── investigate/SKILL.md          # 버그 탐색 (스코프 freeze 원칙)
+│   ├── writing-skills/SKILL.md       # failure-log → SKILL.md 업데이트
+│   └── ship/SKILL.md                 # PR 체크리스트, 릴리즈 gate
 │
 ├── templates/
 │   └── CLAUDE.md.template            # 프로젝트 CLAUDE.md 시작점
@@ -49,6 +54,10 @@ bstack/
     ├── LAYER_RULES.md                # 의존성 규칙 상세 + ArchUnit 연결
     ├── RED_FLAGS.md                  # CRITICAL/HIGH/MEDIUM/LOW 함정 목록
     ├── specs/                        # 기능 스펙, ADR 보관
+    ├── plans/                        # TDD 실행 계획 파일
+    ├── lessons/
+    │   ├── LESSONS_LEARNED.md        # 반복 패턴 학습 기록
+    │   └── failure-log.json          # 버그 탐색 실패 원인 누적
     └── progress/
         └── claude-progress.json.template  # 장기 작업 세션 간 상태 추적
 ```
@@ -57,20 +66,42 @@ bstack/
 
 ## 스킬 라우팅
 
+### 탐색 / 계획
+
 | 요청 유형 | 스킬 |
 |---|---|
-| 설계 / 모듈 경계 / DDD | `/architect` |
+| 새 기능 아이디어, 접근법 탐색 | `/brainstorming` |
+| 기존 코드 레이어/모듈 경계 검토 | `/architect` |
+| 스펙 / ADR 문서화 | `/spec` |
+| 스펙 → TDD 실행 계획 | `/writing-plans` |
+| 계획 분산 실행 (서브에이전트) | `/subagent-driven` |
+
+### 도메인
+
+| 요청 유형 | 스킬 |
+|---|---|
+| 구현 전 컨벤션 확인 | `/conventions` |
 | Spring Boot 패턴 / 설정 | `/spring-core` |
 | JPA / 트랜잭션 / 쿼리 | `/persistence` |
 | REST API 설계 검토 | `/api-review` |
 | 보안 / 인증 / 인가 | `/security` |
 | 테스트 작성 / 전략 | `/test` |
-| "왜 안 되지" 버그 탐색 | `/investigate` |
-| PR / 배포 전 검토 | `/ship` |
 | 성능 / N+1 / 비동기 | `/perf` |
 | 보안+동시성 통합 감사 | `/audit` |
-| 스펙 문서 / ADR 작성 | `/spec` |
 | ArchUnit / 레이어 위반 | `/arch-guard` |
+
+### 실패 / 피드백
+
+| 요청 유형 | 스킬 |
+|---|---|
+| "왜 안 되지" 버그 탐색 | `/investigate` |
+| failure-log → SKILL.md 업데이트 | `/writing-skills` |
+
+### 완료
+
+| 요청 유형 | 스킬 |
+|---|---|
+| PR / 배포 전 검토 | `/ship` |
 
 ---
 
@@ -80,7 +111,7 @@ bstack/
 
 ```bash
 # 1. 클론
-git clone https://github.com/[yourname]/bstack.git ~/works/bstack
+git clone https://github.com/Karatuss/bstack.git ~/works/bstack
 
 # 2. setup 스크립트 실행
 cd ~/works/bstack && ./setup
@@ -91,7 +122,7 @@ cd ~/works/bstack && ./setup
 또는 `~/.claude/skills/`에 직접 클론:
 
 ```bash
-git clone https://github.com/[yourname]/bstack.git ~/.claude/skills/bstack
+git clone https://github.com/Karatuss/bstack.git ~/.claude/skills/bstack
 cd ~/.claude/skills/bstack && ./setup
 ```
 
@@ -134,15 +165,24 @@ git pull origin main
 Claude Code 세션에서:
 
 ```
-/bstack          — 하네스 진입, 스킬 라우팅 안내
-/architect       — 레이어 설계, DDD, 모듈 경계 검토
-/persistence     — JPA N+1 탐지, 트랜잭션 경계 설계
-/security        — Spring Security, JWT, RBAC 구현
-/test            — TestContainers 설정, 커버리지 전략
-/investigate     — 버그 원인 분석 (스코프 freeze 후 탐색)
-/ship            — PR 머지 전 체크리스트
-/audit           — 보안 + 동시성 통합 감사
-/arch-guard      — ArchUnit 레이어 제약 코드화
+/bstack           — 하네스 진입, 스킬 라우팅 안내
+/brainstorming    — 새 기능 설계 탐색 (코드 없을 때)
+/architect        — 레이어 설계, DDD, 모듈 경계 검토
+/spec             — 스펙 문서, ADR 작성
+/writing-plans    — 스펙 → TDD 실행 계획 생성
+/subagent-driven  — 계획 파일 서브에이전트 분산 실행
+/conventions      — 구현 전 컨벤션 확인
+/spring-core      — Spring Boot 관용 패턴, 설정
+/persistence      — JPA N+1 탐지, 트랜잭션 경계 설계
+/api-review       — REST API 계약, 에러 포맷, 버저닝
+/security         — Spring Security, JWT, RBAC 구현
+/test             — TestContainers 설정, 커버리지 전략
+/perf             — 쿼리 성능, HikariCP, 비동기 smell
+/audit            — 보안 + 동시성 통합 감사
+/arch-guard       — ArchUnit 레이어 제약 코드화
+/investigate      — 버그 원인 분석 (스코프 freeze 후 탐색)
+/writing-skills   — failure-log 반영 → SKILL.md 개선
+/ship             — PR 머지 전 체크리스트
 ```
 
 ---

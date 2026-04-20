@@ -9,6 +9,7 @@ Java/Spring Boot 백엔드 프로젝트를 위한 Claude Code 하네스.
 
 ## 특징
 
+- **코드 수정 승인 워크플로우** — 수정 요청 시 계획 제시 → 사용자 승인 → 구현 순서 강제
 - **12개 도메인 스킬** — architect, persistence, security, test 등 백엔드 고유 복잡도를 각 skill로 분리
 - **CLAUDE.md 템플릿** — 200줄 이하 유지, 기본 원칙 + 라우팅 + 아키텍처 제약 + docs/ 포인터
 - **ArchUnit 연동** — 레이어 제약을 코드로 강제, 위반 시 에러 메시지에 수정 방법 내장

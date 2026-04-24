@@ -84,6 +84,7 @@ docs/specs/YYYY-MM-DD-{topic}-design.md
 
 ## References
 
+- docs/NAMING.md — DDD/Clean Architecture 역할 명명 + 패키지 구조 + 레퍼런스 레포
 - docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
 - docs/RED_FLAGS.md — 안티패턴
 - docs/LAYER_RULES.md — 레이어 규칙

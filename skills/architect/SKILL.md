@@ -43,14 +43,34 @@ Infrastructure (Repository 구현) → Domain
 - 공유 커널은 최소화, 변경 시 양측 동의 필요
 - Anti-Corruption Layer로 외부 모델 격리
 
-### 패키지 구조 권장
+### 패키지 구조 (Hexagonal — 권장)
+
+상세 구조·역할 명명·레퍼런스 레포 → `docs/NAMING.md`.
+
 ```
-com.example.{domain}/
-  domain/           # Entity, VO, DomainService, Repository(interface)
-  application/      # UseCase, ApplicationService, Command/Query
-  infrastructure/   # RepositoryImpl, ExternalApiAdapter
-  presentation/     # Controller, Request/Response DTO
+com.example.myapp
+├── domain/          # 의존성 0. 순수 Java. Spring 어노테이션 불가.
+│   └── order/
+│       ├── Order.java              # AggregateRoot
+│       ├── OrderRepository.java    # OutputPort (interface, domain에 위치)
+│       └── OrderCreatedEvent.java  # DomainEvent
+├── application/     # domain 만 의존. UseCase 정의 + 구현.
+│   └── order/
+│       ├── port/in/CreateOrderUseCase.java   # InputPort interface
+│       ├── port/out/LoadOrderPort.java        # OutputPort interface
+│       ├── CreateOrderCommand.java            # record
+│       └── service/CreateOrderService.java   # UseCase 구현 (package-private)
+├── infrastructure/  # Spring + JPA. Adapter 구현.
+│   └── order/
+│       ├── OrderRepositoryAdapter.java        # domain port 구현
+│       └── OrderEntity.java                   # JPA @Entity (domain Entity 아님)
+└── interfaces/      # HTTP/gRPC 어댑터.
+    └── api/order/
+        ├── OrderController.java               # InputPort 주입
+        └── CreateOrderRequest.java            # API DTO
 ```
+
+레퍼런스: [thombergs/buckpal](https://github.com/thombergs/buckpal) · [ddd-by-examples/library](https://github.com/ddd-by-examples/library)
 
 ## 출력 형식
 
@@ -69,6 +89,7 @@ com.example.{domain}/
 
 ## References
 
+- docs/NAMING.md — DDD/Clean Architecture 역할 명명 + 패키지 구조 + 레퍼런스 레포
 - docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
 - docs/RED_FLAGS.md — 안티패턴
 - docs/LAYER_RULES.md — 레이어 규칙

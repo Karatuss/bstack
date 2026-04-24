@@ -16,6 +16,7 @@ See `@SKILL.md` for skill routing.
 ## References
 
 - Principles: `docs/STYLE_GUIDE.md`
+- Naming (DDD/Clean): `docs/NAMING.md`
 - Anti-patterns: `docs/RED_FLAGS.md`
 - Layer rules: `docs/LAYER_RULES.md`
 - Observability: `docs/OBSERVABILITY.md`

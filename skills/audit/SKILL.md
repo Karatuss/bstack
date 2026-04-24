@@ -1,8 +1,13 @@
+---
+name: audit
+description: Spring Security 취약점·동시성 이슈·데이터 무결성 통합 감사. 배포 전·금융 결제 코드 검토·전수 점검 시 사용.
+---
+
 # /audit — 보안 + 동시성 통합 감사 스킬
 
 Spring Security 취약점, 동시성 이슈, 데이터 무결성 문제를 종합적으로 감사한다.
 
-## 진입 조건
+## When to use
 
 - 보안 감사 또는 코드 리뷰 전
 - 동시성 버그 의심 (Race condition, Deadlock)
@@ -118,3 +123,12 @@ int withdraw(@Param("id") Long id, @Param("amount") BigDecimal amount);
 - **HIGH**: PR 전 수정 (IDOR, Race Condition 등)
 - **MEDIUM**: 다음 스프린트 (민감 정보 노출, 잠금 전략 미흡)
 - **LOW**: 개선 권고 (코드 스타일, 로깅 개선)
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

@@ -1,8 +1,13 @@
+---
+name: spec
+description: 기능 스펙·ADR·API 계약 문서화(docs/specs/). 설계 확정 후 구현 전 사용. /brainstorming 권장 선행.
+---
+
 # /spec — 스펙 문서 / ADR 스킬
 
 기능 스펙, 아키텍처 결정 기록(ADR), API 계약 문서를 `docs/specs/`에 관리한다.
 
-## 진입 조건
+## When to use
 
 - `/brainstorming` 완료 후 설계 확정 시 (권장 경로)
 - 새 기능 구현 전 스펙 문서화
@@ -107,3 +112,12 @@ Proposed | Accepted | Deprecated | Superseded by ADR-NNN
 - 스펙은 코드 변경 전에 작성 (설계 먼저, 구현 나중)
 - 구현 완료 후 스펙의 체크리스트 업데이트
 - 아키텍처 변경 시 반드시 ADR 작성
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

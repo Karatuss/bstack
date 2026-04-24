@@ -1,8 +1,13 @@
+---
+name: security
+description: Spring Security filter chain·JWT·OAuth2·RBAC 구현. 인증/인가 설계·CORS/CSRF/XSS 방어 시 사용.
+---
+
 # /security — Spring Security / 인증 / 인가 스킬
 
 Spring Security filter chain, JWT, OAuth2, RBAC 관련 구현과 설계를 다룬다.
 
-## 진입 조건
+## When to use
 
 - Spring Security 설정 구조화
 - JWT 발급/검증 로직 구현
@@ -117,3 +122,12 @@ public UserProfile getMyProfile(Long userId) { ... }
 | CORS preflight 실패 | SecurityFilterChain에서 OPTIONS 차단 | `.requestMatchers(HttpMethod.OPTIONS).permitAll()` |
 | `@PreAuthorize` 미작동 | `@EnableMethodSecurity` 누락 | 설정 클래스에 추가 |
 | Self-invocation으로 권한 우회 | Spring AOP 프록시 한계 | 별도 Bean 분리 |
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

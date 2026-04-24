@@ -1,3 +1,8 @@
+---
+name: bstack
+description: Backend-Specialized Claude Code Harness — Java/Spring Boot 프로젝트용 스킬 라우팅 진입점. /bstack 실행 시 로드.
+---
+
 # bstack — Backend-Specialized Claude Code Harness
 
 Java/Spring Boot 백엔드 프로젝트를 위한 Claude Code 하네스.

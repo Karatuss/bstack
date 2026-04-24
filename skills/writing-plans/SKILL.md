@@ -1,9 +1,14 @@
+---
+name: writing-plans
+description: 승인된 스펙을 2-5분 TDD 태스크 목록으로 변환. 파일 경로·코드 블록 포함. /spec 완료 후 사용.
+---
+
 # /writing-plans — TDD 실행 계획 스킬
 
 승인된 스펙을 2-5분짜리 TDD 태스크 목록으로 변환한다.
 추상적 가이드 금지 — 실제 파일 경로와 완성된 코드 블록 포함.
 
-## 진입 조건
+## When to use
 
 - `docs/specs/FEAT-NNN.md` 또는 `docs/specs/YYYY-MM-DD-topic-design.md` 존재
 - 사용자가 구현 계획을 요청
@@ -76,3 +81,12 @@ Domain Model → Repository → Service → Controller → Integration Test
 ## 완료 후
 
 계획 파일 저장 완료 → `/subagent-driven` 스킬로 실행 권장.
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

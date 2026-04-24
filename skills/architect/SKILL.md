@@ -1,8 +1,13 @@
+---
+name: architect
+description: DDD·모듈 경계·레이어 설계 리뷰. 구조 개선·의존성 방향·Bounded Context 논의 시 사용.
+---
+
 # /architect — 설계 리뷰 스킬
 
 DDD, 모듈 경계, 레이어 설계, Bounded Context 관련 설계 결정을 검토하고 제안한다.
 
-## 진입 조건
+## When to use
 
 - 레이어 구조 또는 모듈 분리 방향 논의
 - Bounded Context 또는 도메인 경계 설정
@@ -58,3 +63,12 @@ com.example.{domain}/
 
 설계 결정 사항은 `docs/ARCHITECTURE.md` 또는 `docs/specs/ADR-NNN.md`에 기록.
 `/spec` 스킬로 연계.
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

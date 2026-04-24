@@ -1,9 +1,14 @@
+---
+name: brainstorming
+description: 새 기능 설계 탐색. Hard gate — 승인 없이 코드 작성 불가. 접근법 비교·트레이드오프 논의 시 사용.
+---
+
 # /brainstorming — 설계 탐색 스킬
 
 새 기능이나 시스템을 구현하기 전, 설계를 탐색하고 사용자의 승인을 받는다.
 **Hard Gate**: 승인 없이 코드 작성, 스캐폴딩, 구현 액션 일체 불가.
 
-## 진입 조건
+## When to use
 
 - 새 기능 아이디어 탐색
 - "어떻게 구현할까" 수준의 초기 논의
@@ -73,3 +78,12 @@ docs/specs/YYYY-MM-DD-{topic}-design.md
 | 코드 필요 | 없어도 됨 | 있어야 함 |
 | 결과물 | 설계 탐색 문서 | 구체적 리팩토링 제안 |
 | 진입 시점 | 구현 전 | 구현 중/후 |
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

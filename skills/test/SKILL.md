@@ -1,8 +1,13 @@
+---
+name: test
+description: TestContainers·Mockito·슬라이스 테스트·커버리지 전략. Mock vs 실제 의존성 결정 시 사용.
+---
+
 # /test — 테스트 전략 스킬
 
 TestContainers, Mockito, 슬라이스 테스트, 커버리지 전략을 다룬다.
 
-## 진입 조건
+## When to use
 
 - 테스트 전략 수립 (단위 vs 통합)
 - TestContainers 설정
@@ -132,3 +137,12 @@ void 재고_부족_시_주문_생성_실패() { ... }
 @Test
 void createOrder_whenStockInsufficient_throwsException() { ... }
 ```
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

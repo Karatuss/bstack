@@ -1,8 +1,13 @@
+---
+name: api-review
+description: REST API 설계 검토. 엔드포인트 계약·HTTP 상태코드·에러 포맷·DTO 구조·버저닝 결정 시 사용.
+---
+
 # /api-review — REST API 설계 검토 스킬
 
 REST 계약, HTTP 상태코드, 에러 응답 포맷, API 버저닝을 검토하고 표준화한다.
 
-## 진입 조건
+## When to use
 
 - 새 API 엔드포인트 설계 검토
 - 에러 응답 형식 통일
@@ -106,3 +111,12 @@ public record OrderResponse(
 - [ ] 페이징 응답에 `totalElements`, `totalPages` 포함
 - [ ] `@Valid` 또는 `@Validated`로 입력값 검증
 - [ ] OpenAPI/Swagger 어노테이션 업데이트
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

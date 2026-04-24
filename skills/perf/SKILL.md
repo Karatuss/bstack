@@ -1,8 +1,13 @@
+---
+name: perf
+description: N+1·HikariCP·비동기 smell·캐싱 성능 최적화. API 응답 지연·쿼리 폭주·Thread pool 고갈 시 사용.
+---
+
 # /perf — 성능 최적화 스킬
 
 N+1 쿼리 탐지, HikariCP 튜닝, 비동기 처리 smell, 캐싱 전략을 다룬다.
 
-## 진입 조건
+## When to use
 
 - API 응답 속도 저하
 - 데이터베이스 쿼리 수가 비정상적으로 많음
@@ -139,3 +144,12 @@ EXPLAIN ANALYZE SELECT ...
 GET /actuator/metrics/hikaricp.connections.active
 GET /actuator/metrics/http.server.requests
 ```
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

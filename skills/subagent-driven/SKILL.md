@@ -1,9 +1,14 @@
+---
+name: subagent-driven
+description: docs/plans/ 태스크를 서브에이전트에 분산 실행. 스펙 적합성 + 품질 리뷰 포함. /writing-plans 완료 후 사용.
+---
+
 # /subagent-driven — 서브에이전트 분산 실행 스킬
 
 `docs/plans/` 의 실행 계획을 태스크 단위로 서브에이전트에 위임하고,
 각 태스크마다 스펙 적합성 리뷰 → 코드 품질 리뷰 순으로 검증한다.
 
-## 진입 조건
+## When to use
 
 - `docs/plans/YYYY-MM-DD-{name}.md` 존재
 - `/writing-plans` 완료 후
@@ -98,3 +103,12 @@ docs/RED_FLAGS.md
 1. `docs/progress/claude-progress.json` 읽기
 2. `completed` 태스크 건너뜀
 3. `in_progress` 태스크부터 재개
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

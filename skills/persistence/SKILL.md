@@ -1,8 +1,13 @@
+---
+name: persistence
+description: JPA/Hibernate 관용·트랜잭션 경계·N+1·쿼리 최적화. @Transactional 위치·LazyInitialization 이슈 시 사용.
+---
+
 # /persistence — JPA / 트랜잭션 / 쿼리 스킬
 
 JPA/Hibernate 관용 패턴, N+1 탐지, 트랜잭션 경계 설계, 쿼리 최적화를 다룬다.
 
-## 진입 조건
+## When to use
 
 - N+1 쿼리 문제 의심 또는 확인
 - 트랜잭션 경계, `@Transactional` 위치 결정
@@ -91,3 +96,12 @@ int bulkUpdateStatus(@Param("status") OrderStatus status, @Param("date") LocalDa
 | 영속성 컨텍스트 메모리 증가 | 대량 조회 후 미사용 엔티티 | `em.clear()` 또는 DTO Projection |
 | Dirty Checking 미작동 | 트랜잭션 외부에서 수정 | 트랜잭션 범위 내에서 수정 |
 | `MultipleBagFetchException` | 두 Collection Fetch Join 동시 | 하나만 Fetch Join + `@BatchSize` |
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

@@ -1,6 +1,7 @@
-# [프로젝트명] — CLAUDE.md
+# [프로젝트명] — AGENTS.md
 
-> 200줄 이하. 세부 내용은 `docs/` 와 `.claude/skills/bstack/` 로 위임.
+> 플랫폼 중립 에이전트 진입 문서 (Codex / Cursor / Antigravity / Gemini CLI).
+> Claude Code 사용 시 `CLAUDE.md`가 자동 우선 — 둘 다 유지 또는 심볼릭 가능.
 
 ---
 
@@ -18,7 +19,7 @@
 - Plan before code. Wait for approval. (Except "바로 수정해줘".)
 - Tests mandatory. TDD for non-trivial.
 - Quantitative over vibes. Predict QPS, rows, p99 before designing.
-- Colleagues disagree openly. Cite evidence.
+- Colleagues disagree openly. Cite evidence (file:line, numbers, links).
 - Surgical changes. No drive-by refactors.
 
 ---
@@ -34,7 +35,7 @@
 - Service 간 순환 의존
 - 테스트 없이 공개 API 변경
 
-위반은 ArchUnit 이 CI에서 차단. 발견 시 `/arch-guard`.
+위반은 ArchUnit 으로 CI 차단. 위반 발견 시 `/arch-guard`.
 
 ---
 
@@ -67,5 +68,5 @@
 
 ## Runtime
 
-- Responses: caveman full mode (plugin: `caveman`).
+- Responses: caveman full (지원 에이전트 한정).
 - Commits/PRs/code/docs: normal prose.

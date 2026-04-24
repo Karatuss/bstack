@@ -1,240 +1,115 @@
-# bstack
+# bstack — Backend-Specialized Claude Code Harness
 
-> Backend-specialized Claude Code harness for Java 21 / Spring Boot 3.x
+> Java 21 / Spring Boot 3.x 팀을 위한 Claude Code · Codex · Antigravity 공용 하네스.
+> 동료 조직처럼 일하도록 설계: TDD + 정량 지표 + 런타임 관측 + 후계자 친화.
 
-[한국어](README.ko.md)
+[English](#english) · [한국어](README.ko.md)
+
+![skills](https://img.shields.io/badge/skills-20-B794F4) ![license](https://img.shields.io/badge/license-MIT-48BB78) ![compat](https://img.shields.io/badge/compat-Claude%20·%20Codex%20·%20Antigravity%20·%20Cursor-4FD1C5)
 
 ---
 
-## What is bstack?
+## 5초 요약
 
-**bstack** is a Claude Code harness purpose-built for Java/Spring Boot backends.
-It restructures the [gstack](https://github.com/anthropics/gstack) pattern around backend-specific complexity: transaction boundaries, module dependencies, query plans, and the Spring Security filter chain.
+- **20개 백엔드 skills** — 설계 · 구현 · 감사 · 관측 · 협업
+- **CLAUDE.md / AGENTS.md 동시 지원** — Claude Code 외 Codex/Cursor/Antigravity/Gemini CLI 호환
+- **Ink 설치 마법사** — 보라 테마의 pretty wizard (Node 18+), 없으면 bash 자동 폴백
+- **Karpathy 4원칙 + 동료 협업 톤** — 반박 권장, 근거 요구, 트레이드오프 강제
+- **대상 프로젝트 런타임 관측 내장** — Spring Actuator + Micrometer + logback JSON + Slack
 
-## Features
-
-- **Approval workflow** — plan → user approval → implement. Claude never edits code without confirmation.
-- **17 domain skills** — architect, persistence, security, test, and more — each targeting a distinct backend concern
-- **CLAUDE.md template** — stays under 200 lines: context + architecture constraints + skill routing
-- **ArchUnit integration** — layer rules enforced in CI, violation messages include fix instructions
-- **Context Rot prevention** — test pass = one line; failures = full output
-- **Cross-session state** — `docs/progress/claude-progress.json` (JSON, safer than Markdown for long tasks)
-- **Global + per-project install** — symlink (instant updates) or vendor (team-pinned version)
-
-## Structure
-
-```
-bstack/
-├── SKILL.md                          # Entry point & skill routing table
-├── CLAUDE.md                         # Harness README
-├── setup                             # Install script
-│
-├── skills/
-│   ├── brainstorming/SKILL.md        # Explore new feature ideas, no code yet
-│   ├── architect/SKILL.md            # DDD, module boundaries, layer design
-│   ├── spec/SKILL.md                 # Spec docs, ADR writing
-│   ├── writing-plans/SKILL.md        # Spec → TDD execution plan
-│   ├── subagent-driven/SKILL.md      # Distribute plan across sub-agents
-│   ├── conventions/SKILL.md          # Check conventions before implementing
-│   ├── spring-core/SKILL.md          # Beans, profiles, auto-configuration
-│   ├── persistence/SKILL.md          # JPA, N+1 detection, transaction boundaries
-│   ├── api-review/SKILL.md           # REST contracts, error format, versioning
-│   ├── security/SKILL.md             # Spring Security, JWT, OAuth2
-│   ├── test/SKILL.md                 # TestContainers, Mockito, coverage strategy
-│   ├── perf/SKILL.md                 # N+1, HikariCP, async smell
-│   ├── audit/SKILL.md                # Security + concurrency integrated audit
-│   ├── arch-guard/SKILL.md           # ArchUnit constraint code
-│   ├── investigate/SKILL.md          # Bug investigation (scope-freeze principle)
-│   ├── writing-skills/SKILL.md       # failure-log → SKILL.md improvement
-│   └── ship/SKILL.md                 # PR checklist, release gate
-│
-├── templates/
-│   └── CLAUDE.md.template            # Starting point for project CLAUDE.md
-│
-└── docs/
-    ├── ARCHITECTURE.md               # Layer structure, tech stack
-    ├── LAYER_RULES.md                # Dependency rules + ArchUnit mapping
-    ├── RED_FLAGS.md                  # CRITICAL/HIGH/MEDIUM/LOW trap list
-    ├── specs/                        # Feature specs, ADRs
-    ├── plans/                        # TDD execution plans
-    ├── lessons/
-    │   ├── LESSONS_LEARNED.md        # Recurring pattern log
-    │   └── failure-log.json          # Bug investigation failure accumulator
-    └── progress/
-        └── claude-progress.json.template  # Long-task cross-session state
-```
-
-## Skill Routing
-
-### Explore / Plan
-
-| Request | Skill |
-|---|---|
-| New feature ideas, approach exploration | `/brainstorming` |
-| Existing layer/module boundary review | `/architect` |
-| Spec / ADR documentation | `/spec` |
-| Spec → TDD execution plan | `/writing-plans` |
-| Distribute plan (sub-agents) | `/subagent-driven` |
-
-### Domain
-
-| Request | Skill |
-|---|---|
-| Check conventions before implementing | `/conventions` |
-| Spring Boot patterns / config | `/spring-core` |
-| JPA / transactions / queries | `/persistence` |
-| REST API design review | `/api-review` |
-| Security / auth / authorization | `/security` |
-| Test writing / strategy | `/test` |
-| Performance / N+1 / async | `/perf` |
-| Security + concurrency audit | `/audit` |
-| ArchUnit / layer violations | `/arch-guard` |
-
-### Failure / Feedback
-
-| Request | Skill |
-|---|---|
-| "Why is this broken?" bug investigation | `/investigate` |
-| failure-log → SKILL.md update | `/writing-skills` |
-
-### Done
-
-| Request | Skill |
-|---|---|
-| Pre-merge PR checklist | `/ship` |
-
-## Install
-
-### Global (available in all projects)
+## Quick start
 
 ```bash
-git clone https://github.com/Karatuss/bstack.git ~/works/bstack
-cd ~/works/bstack && ./setup
-# creates ~/.claude/skills/bstack symlink
-# creates ~/.claude/skills/{architect,persistence,...} individual links
+git clone https://github.com/Karatuss/bstack.git
+cd bstack && ./setup
 ```
 
-Or clone directly into `~/.claude/skills/`:
+설치 마법사가 다음을 묻는다:
+
+1. **Variant** — CLAUDE (Claude Code) / AGENTS (Codex · Cursor · Antigravity · Gemini CLI)
+2. **Install mode** — Global symlink / Project symlink / Project vendor
+3. **Skills** — 20개 다중선택 (기본 전체)
+4. **Confirm** — 변경 경로 프리뷰 후 Enter
 
 ```bash
-git clone https://github.com/Karatuss/bstack.git ~/.claude/skills/bstack
-cd ~/.claude/skills/bstack && ./setup
+# 특정 프로젝트 vendor 모드
+cd bstack && ./setup --project=/path/to/your-spring-app
 ```
 
-### Apply to a project
+## Variant 비교
 
-**Symlink** (changes reflected instantly during development):
+|  | **CLAUDE** | **AGENTS** |
+|---|---|---|
+| 호환 에이전트 | Claude Code | Codex · Cursor · Antigravity · Gemini CLI · OpenCode |
+| 진입 문서 | `CLAUDE.md` | `AGENTS.md` |
+| 스킬 디렉터리 | `.claude/skills/` | `.agents/skills/` |
+| 스킬 내용 | 동일 | 동일 |
+
+두 variant는 **진입 문서 + 레이아웃만** 다르다. 내부 스킬은 단일 세트.
+
+## Skills (20)
+
+### 탐색 / 계획
+`/brainstorming` · `/architect` · `/spec` · `/writing-plans` · `/subagent-driven`
+
+### 도메인
+`/conventions` · `/spring-core` · `/persistence` · `/api-review` · `/security` · `/test` · `/perf` · `/audit` · `/arch-guard`
+
+### 협업 · 지표 · 관측
+`/collaboration` · `/metrics` · `/observability`
+
+### 실패 / 릴리즈
+`/investigate` · `/writing-skills` · `/ship`
+
+각 SKILL.md에 YAML frontmatter(name/description) + When / How / Decision tree + References 블록으로 progressive disclosure 표준 ([Antigravity Agent Skills](https://antigravity.google/docs/skills) 패턴).
+
+## 철학
+
+1. **Think before coding** — 문제 재진술 → 성공 기준 → 그 다음 코드
+2. **Simplicity first** — 두 번째 중복 나타날 때까지 추상화 금지
+3. **Surgical changes** — 요청 범위 밖 리팩토링은 별도 커밋
+4. **Goal-driven** — 각 단계가 목표 gap을 얼마나 좁히는지 측정
+5. **Quantitative over vibes** — QPS · row · fan-out · p99 예측 없이 설계 금지
+6. **Successor-friendly** — 3개월 뒤 처음 보는 동료가 이어받을 수 있는 구조
+
+원칙 상세: [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md).
+안티패턴: [docs/RED_FLAGS.md](docs/RED_FLAGS.md).
+
+## 런타임 관측
+
+`/observability` 스킬 + [docs/OBSERVABILITY.md](docs/OBSERVABILITY.md)가 대상 프로젝트에 **logging · monitoring · Slack alerting** 설정을 제공한다.
+
+- **Logging**: logback-spring.xml + `logstash-logback-encoder` JSON, MDC(traceId/userId/uri)
+- **Monitoring**: Actuator + `micrometer-registry-prometheus`, JVM/HikariCP/HTTP 대시보드 3종
+- **Alerting**: Alertmanager → Slack webhook (추천) / 앱 내 `SlackNotifier` + `@EventListener` + fingerprint dedup
+
+임계치 예시: 에러율 > 1%/5m, p99 > 500ms/5m, HikariCP 대기 > 100ms.
+
+## 아키텍처 의존성
+
+```
+Domain → Repository(interface) → Service → Controller
+```
+
+Controller→Repository 직접 접근, Entity→API 직접 노출, Controller `@Transactional` 은 ArchUnit 이 CI에서 차단. 위반 시 `/arch-guard`.
+
+## 업데이트
 
 ```bash
-cd your-spring-project
-mkdir -p .claude/skills
-ln -s ~/.claude/skills/bstack .claude/skills/bstack
-cp ~/.claude/skills/bstack/templates/CLAUDE.md.template ./CLAUDE.md
-# edit CLAUDE.md for your project: name, stack, module structure
+cd ~/.claude/skills/bstack   # 전역 설치 경로
+git pull && ./setup          # wizard 가 기존 설정 감지 후 필요한 변경만 수행
 ```
-
-**Vendor** (team-shared, version-pinned):
-
-```bash
-cd ~/.claude/skills/bstack && ./setup --project=/path/to/your-project
-# copies to .claude/skills/bstack/, strips git history
-# auto-generates CLAUDE.md if not present
-```
-
-### Update
-
-```bash
-cd ~/works/bstack && git pull origin main
-# symlink: auto-applied. vendor: re-run ./setup --project=...
-```
-
-## Usage
-
-In a Claude Code session:
-
-```
-/bstack           — harness entry, skill routing guide
-/brainstorming    — explore new feature design (no code yet)
-/architect        — layer design, DDD, module boundary review
-/spec             — spec docs, ADR writing
-/writing-plans    — spec → TDD execution plan
-/subagent-driven  — distribute plan across sub-agents
-/conventions      — check conventions before implementing
-/spring-core      — Spring Boot idioms, configuration
-/persistence      — JPA N+1 detection, transaction boundary design
-/api-review       — REST API contracts, error format, versioning
-/security         — Spring Security, JWT, RBAC implementation
-/test             — TestContainers setup, coverage strategy
-/perf             — query performance, HikariCP, async smell
-/audit            — security + concurrency integrated audit
-/arch-guard       — ArchUnit layer constraint code
-/investigate      — bug root-cause analysis (scope-freeze then explore)
-/writing-skills   — reflect failure-log → improve SKILL.md
-/ship             — pre-merge PR checklist
-```
-
-## CLAUDE.md Structure
-
-Keep project `CLAUDE.md` **under 200 lines**. Three things only:
-
-```
-1. Project context      — stack, build commands, module structure
-2. Architecture rules   — layer dependency rules, forbidden patterns
-3. Skill routing table  — request type → skill mapping
-```
-
-Details live in `docs/` and `skills/`. Use `templates/CLAUDE.md.template` as the starting point.
-
-## Architecture Principles
-
-Dependency direction (one-way):
-
-```
-Presentation → Application → Domain
-Infrastructure → Domain (implements Repository interfaces)
-```
-
-**Absolutely forbidden** (enforced in CI via ArchUnit):
-- Controller accessing Repository directly
-- Entity exposed as API response
-- `@Transactional` declared on Controller
-- Domain layer depending on `org.springframework.*`
-- Circular dependencies between packages
-
-## RED FLAGS Summary
-
-| Severity | Example |
-|---|---|
-| 🔴 CRITICAL | Hardcoded JWT secret, SQL injection-vulnerable code |
-| 🟠 HIGH | N+1 queries, Entity returned directly, inventory concurrency unhandled |
-| 🟡 MEDIUM | `readOnly=true` not used, Mock DB instead of TestContainers |
-| 🔵 LOW | `@Autowired` field injection, excessive SQL logs in tests |
-
-Full list: [`docs/RED_FLAGS.md`](docs/RED_FLAGS.md)
-
-## References
-
-### Harness Patterns
-- [gstack](https://github.com/anthropics/gstack) — original Claude Code harness (frontend + SDLC)
-- [Claude Code Docs — Skills](https://docs.anthropic.com/en/docs/claude-code/skills) — official skills docs
-
-### Java/Spring References
-- [decebals/claude-code-java](https://github.com/decebals/claude-code-java) — Java-specialized harness, 18 reusable skills
-- [Jeffallan/claude-skills](https://github.com/Jeffallan/claude-skills) — Spring Boot 3.x, Java 21, WebFlux, TestContainers
-- [jdubois/dr-jskill](https://github.com/jdubois/dr-jskill) — Spring Boot core, persistence-jpa focused
-
-### Design Principles
-- [HumanLayer — Claude Code lessons](https://wikidocs.net/blog/@jaehong/9481/) — Context Rot prevention, cross-session state tracking
-- [OpenAI Harness Engineering](https://openai.com/ko-KR/index/harness-engineering/) — why AGENTS.md shouldn't be an encyclopedia
-- [ArchUnit](https://www.archunit.org/) — architecture constraints as test code
-
-## Requirements
-
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI
-- Java 21+
-- Spring Boot 3.x
-- Maven (`./mvnw`) or Gradle (`./gradlew`)
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
+
+---
+
+<a name="english"></a>
+## English
+
+bstack is a Claude Code / Codex / Antigravity harness for Java 21 + Spring Boot 3.x teams.
+20 skills, dual variant (CLAUDE.md or AGENTS.md), Ink-based install wizard, Karpathy 4-principles, and a runtime observability guide.
+
+Install: `git clone … && cd bstack && ./setup` (Korean docs above cover the full flow).

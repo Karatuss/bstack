@@ -1,9 +1,14 @@
+---
+name: investigate
+description: 원인 불명 버그·예외·성능 저하의 체계적 분석. 스코프 freeze 원칙 적용.
+---
+
 # /investigate — 버그 탐색 스킬
 
 원인 불명 버그, 예외 추적, 예상치 못한 동작을 체계적으로 분석한다.
 **스코프 freeze 원칙**: 탐색 중 발견한 관련 없는 코드 냄새는 메모만 하고 건드리지 않는다.
 
-## 진입 조건
+## When to use
 
 - 예외 발생 원인 불명
 - 특정 조건에서만 재현되는 버그
@@ -102,3 +107,12 @@ git log --oneline -20 -- src/main/java/path/to/affected/
 # TODO (이번 범위 밖)
 - OrderService:123 — 불필요한 조회 발견 → /perf 스킬로 별도 작업
 ```
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

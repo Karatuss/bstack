@@ -1,3 +1,8 @@
+---
+name: conventions
+description: Spring Boot 코드 컨벤션(커밋 형식·네이밍·패키지 구조). 모든 구현 전 필수 확인.
+---
+
 # /conventions — Spring Boot 코드 컨벤션
 
 구현 전 반드시 확인. 코드 리뷰·신규 기능·리팩토링 포함 모든 코드 작업에 적용.
@@ -200,3 +205,30 @@ public void placeOrder(OrderCommand cmd) {
 
 bstack을 사용하는 각 프로젝트의 `CLAUDE.md` 또는 프로젝트 전용 `/conventions` 스킬에 추가 규칙을 정의한다.
 (예: 멀티모듈 엔티티 동기화 정책, Flyway 버전 관리, 프로젝트 표준 예외 클래스 등)
+
+
+---
+
+## 역할 네이밍 (DDD/Clean Architecture)
+
+`docs/NAMING.md` 가 단일 소스. 핵심 원칙만:
+
+- `*UseCase` — InputPort interface. 1 operation 1 class.
+- `*Command` / `*Query` — Application 층 입력 record.
+- `*Service` (구현체) — UseCase 구현, package-private 권장.
+- `*RepositoryAdapter` — domain port 구현. JPA `*Entity` ≠ domain `Entity`.
+- `*Controller` — HTTP 어댑터. UseCase interface 만 알면 됨.
+- `*Request` / `*Response` — HTTP API DTO (interfaces 층).
+- `*RequestMapper` — Request→Command, Result→Response 변환.
+
+`Manager` / `Helper` / `Util` 접미사 금지 — 책임이 불명확.
+패키지 구조·의존 방향·레퍼런스 레포: `docs/NAMING.md`.
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/NAMING.md — DDD/Clean Architecture 역할 명명 + 패키지 구조 + 레퍼런스 레포
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

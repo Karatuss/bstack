@@ -1,8 +1,13 @@
+---
+name: arch-guard
+description: ArchUnit으로 레이어 의존성 제약을 테스트 코드화. 위반 탐지·CI 차단·아키텍처 규칙 강제 시 사용.
+---
+
 # /arch-guard — ArchUnit 아키텍처 제약 스킬
 
 ArchUnit 테스트를 작성하고, 레이어 위반을 탐지하며, CI에서 아키텍처 제약을 강제한다.
 
-## 진입 조건
+## When to use
 
 - 레이어 의존성 위반 의심 또는 확인
 - 새 아키텍처 제약 규칙 코드화
@@ -111,3 +116,12 @@ class ArchitectureTest {
 - name: Architecture Tests
   run: ./mvnw test -Dtest=ArchitectureTest -pl [module]
 ```
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

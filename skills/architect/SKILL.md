@@ -1,8 +1,13 @@
+---
+name: architect
+description: DDD·모듈 경계·레이어 설계 리뷰. 구조 개선·의존성 방향·Bounded Context 논의 시 사용.
+---
+
 # /architect — 설계 리뷰 스킬
 
 DDD, 모듈 경계, 레이어 설계, Bounded Context 관련 설계 결정을 검토하고 제안한다.
 
-## 진입 조건
+## When to use
 
 - 레이어 구조 또는 모듈 분리 방향 논의
 - Bounded Context 또는 도메인 경계 설정
@@ -38,14 +43,34 @@ Infrastructure (Repository 구현) → Domain
 - 공유 커널은 최소화, 변경 시 양측 동의 필요
 - Anti-Corruption Layer로 외부 모델 격리
 
-### 패키지 구조 권장
+### 패키지 구조 (Hexagonal — 권장)
+
+상세 구조·역할 명명·레퍼런스 레포 → `docs/NAMING.md`.
+
 ```
-com.example.{domain}/
-  domain/           # Entity, VO, DomainService, Repository(interface)
-  application/      # UseCase, ApplicationService, Command/Query
-  infrastructure/   # RepositoryImpl, ExternalApiAdapter
-  presentation/     # Controller, Request/Response DTO
+com.example.myapp
+├── domain/          # 의존성 0. 순수 Java. Spring 어노테이션 불가.
+│   └── order/
+│       ├── Order.java              # AggregateRoot
+│       ├── OrderRepository.java    # OutputPort (interface, domain에 위치)
+│       └── OrderCreatedEvent.java  # DomainEvent
+├── application/     # domain 만 의존. UseCase 정의 + 구현.
+│   └── order/
+│       ├── port/in/CreateOrderUseCase.java   # InputPort interface
+│       ├── port/out/LoadOrderPort.java        # OutputPort interface
+│       ├── CreateOrderCommand.java            # record
+│       └── service/CreateOrderService.java   # UseCase 구현 (package-private)
+├── infrastructure/  # Spring + JPA. Adapter 구현.
+│   └── order/
+│       ├── OrderRepositoryAdapter.java        # domain port 구현
+│       └── OrderEntity.java                   # JPA @Entity (domain Entity 아님)
+└── interfaces/      # HTTP/gRPC 어댑터.
+    └── api/order/
+        ├── OrderController.java               # InputPort 주입
+        └── CreateOrderRequest.java            # API DTO
 ```
+
+레퍼런스: [thombergs/buckpal](https://github.com/thombergs/buckpal) · [ddd-by-examples/library](https://github.com/ddd-by-examples/library)
 
 ## 출력 형식
 
@@ -58,3 +83,13 @@ com.example.{domain}/
 
 설계 결정 사항은 `docs/ARCHITECTURE.md` 또는 `docs/specs/ADR-NNN.md`에 기록.
 `/spec` 스킬로 연계.
+
+
+---
+
+## References
+
+- docs/NAMING.md — DDD/Clean Architecture 역할 명명 + 패키지 구조 + 레퍼런스 레포
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

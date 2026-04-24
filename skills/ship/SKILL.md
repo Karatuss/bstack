@@ -1,8 +1,13 @@
+---
+name: ship
+description: PR 머지 전 체크리스트·릴리즈 gate·배포 검증. 자체 리뷰·최종 확인·릴리즈 태그 생성 전 사용.
+---
+
 # /ship — PR / 릴리즈 체크 스킬
 
 머지 전 체크리스트, 릴리즈 gate, 배포 준비 상태를 검증한다.
 
-## 진입 조건
+## When to use
 
 - PR 생성 전 자체 리뷰
 - 머지 전 최종 확인
@@ -81,3 +86,12 @@ open target/site/jacoco/index.html
 
 모든 체크리스트 항목 통과 시 머지 준비 완료.
 미통과 항목이 있으면 `/investigate` 또는 해당 스킬로 연계.
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

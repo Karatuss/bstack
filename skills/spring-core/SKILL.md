@@ -1,8 +1,13 @@
+---
+name: spring-core
+description: Spring Boot 3.x Bean 생명주기·자동구성·프로파일·관용 패턴. 설정 구조화·업그레이드 이슈 시 사용.
+---
+
 # /spring-core — Spring Boot 관용 패턴 스킬
 
 Spring Boot 3.x의 Bean 생명주기, 자동구성, 프로파일, 관용 패턴을 다룬다.
 
-## 진입 조건
+## When to use
 
 - Spring Bean 설정, 생명주기 이슈
 - `@Configuration`, `@Conditional`, 자동구성 문제
@@ -74,3 +79,12 @@ public class FeatureXAutoConfiguration {
 1. 현재 코드의 anti-pattern 명시
 2. 권장 패턴으로 수정된 코드 제시
 3. 이유 한 줄 설명
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

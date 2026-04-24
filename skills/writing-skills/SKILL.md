@@ -1,9 +1,14 @@
+---
+name: writing-skills
+description: 실패 케이스→SKILL.md prevention rule 추가. RED-GREEN-REFACTOR 적용. /investigate 완료 후 사용.
+---
+
 # /writing-skills — 스킬 TDD (실패 → SKILL.md 업데이트)
 
 실패 케이스를 "failing test"로 삼아 관련 SKILL.md에 prevention rule을 추가한다.
 RED-GREEN-REFACTOR 사이클을 process documentation에 적용.
 
-## 진입 조건
+## When to use
 
 - `/investigate`가 실패 원인을 확정하고 `docs/lessons/failure-log.json`에 기록한 후
 - 기존 SKILL.md에 해당 패턴이 없는 경우
@@ -77,3 +82,12 @@ description: "Follows a 5-step process: scope freeze, evidence collection, hypot
 - 여러 스킬에 걸쳐 영향을 미치는 패턴
 - 설계 수준의 결정 (레이어 구조, 트랜잭션 경계 등)
 - 팀 전체가 알아야 할 운영 경험
+
+
+---
+
+## References
+
+- docs/STYLE_GUIDE.md — 원칙 (Karpathy 4 + 동료 협업 + 정량)
+- docs/RED_FLAGS.md — 안티패턴
+- docs/LAYER_RULES.md — 레이어 규칙

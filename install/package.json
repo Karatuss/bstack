@@ -1,0 +1,30 @@
+{
+  "name": "bstack-install",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "bin": {
+    "bstack-install": "bin/bstack-install.tsx"
+  },
+  "scripts": {
+    "start": "tsx bin/bstack-install.tsx"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "figures": "^6.1.0",
+    "ink": "^5.0.1",
+    "ink-multi-select": "^2.0.1",
+    "ink-select-input": "^6.0.0",
+    "ink-text-input": "^6.0.0",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

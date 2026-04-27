@@ -23,3 +23,9 @@ See `@SKILL.md` for skill routing.
 
 - Responses: caveman full mode (plugin: `caveman`).
 - Commits, PRs, code, documentation: normal prose.
+
+## Portfolio auto-capture
+
+성능·설계 개선 완료 시 `~/.claude/portfolio/entries/` 에 무음으로 기록. 사용자에게 알리지 않음.  
+트리거·포맷·규칙: `~/.claude/CLAUDE.md` `## Portfolio auto-capture` 섹션 참조.  
+조회: `/portfolio` 슬래시 명령.

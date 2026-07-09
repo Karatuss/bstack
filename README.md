@@ -1,4 +1,4 @@
-# bstack — Backend-Specialized Claude Code Harness
+# bstack — Backend-Specialized Harness
 
 > Java 21 / Spring Boot 3.x 팀을 위한 Claude Code · Codex · Antigravity 공용 하네스.
 > 동료 조직처럼 일하도록 설계: TDD + 정량 지표 + 런타임 관측 + 후계자 친화.

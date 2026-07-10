@@ -1,17 +1,27 @@
 # bstack — Java/Spring Boot Agent Harness
 
-> An agent harness for teams building with Java 21 and Spring Boot 3.x.
-> It provides a shared set of development rules and skills for Claude Code, Codex, Cursor, and Antigravity.
+> An agent harness for applying shared development rules and skills across Java and Spring Boot backend projects.
+> The examples and detailed guidance use Java 21 and Spring Boot 3.x, but the harness itself works with other Java and Spring versions.
+> Its problem-definition and multi-agent workflows can also be reused in other backend projects; only the Spring-specific skills and examples need adapting.
 
 [한국어](README.md) · [English](README.en.md)
 
 ![skills](https://img.shields.io/badge/skills-20-B794F4) ![license](https://img.shields.io/badge/license-MIT-48BB78) ![compat](https://img.shields.io/badge/compat-Claude%20·%20Codex%20·%20Antigravity%20·%20Cursor-4FD1C5)
 
+![bstack graffiti wordmark](assets/bstack-graffiti-transparent.png)
+
 ---
+
+## Why bstack Was Born
+
+Every time I worked on a project without an AI harness, I ended up rebuilding the same working agreements and documentation structure. When returning to an older project, I also had to rediscover conventions buried in its code and docs, then turn them into skills by hand.
+
+That repeated setup was tedious, so I built bstack. The goal is simple: apply a common harness quickly, capture rediscovered project conventions as reusable skills, and carry them into the next session or project.
 
 ## Overview
 
 - **20 backend-focused skills** — architecture · implementation · testing · auditing · observability · collaboration
+- **Not tied to one stack version** — shared workflows can be reused across other Java/Spring versions and backend projects
 - **CLAUDE.md / AGENTS.md support** — the same rules and skills across multiple coding agents
 - **Problem-driven multi-agent execution** — allocation by independent workstream, not task count
 - **Explicit decomposition rules** — dependency DAGs · file ownership · risk-based review

@@ -1,17 +1,27 @@
 # bstack — Java/Spring Boot 에이전트 하네스
 
-> Java 21과 Spring Boot 3.x를 사용하는 팀을 위한 에이전트 하네스입니다.
-> Claude Code, Codex, Cursor, Antigravity에서 같은 개발 규칙과 스킬을 사용할 수 있습니다.
+> Java/Spring Boot 백엔드 프로젝트에 공통 개발 규칙과 스킬을 적용하기 위한 에이전트 하네스입니다.
+> 예시와 세부 가이드는 Java 21과 Spring Boot 3.x를 기준으로 하지만, 하네스 구조 자체는 다른 Java/Spring 버전에서도 사용할 수 있습니다.
+> 문제 정의와 멀티에이전트 운영 방식은 다른 백엔드 프로젝트에도 재사용할 수 있으며, Spring 전용 스킬과 예시만 프로젝트에 맞게 조정하면 됩니다.
 
 [한국어](README.md) · [English](README.en.md)
 
 ![skills](https://img.shields.io/badge/skills-20-B794F4) ![license](https://img.shields.io/badge/license-MIT-48BB78) ![compat](https://img.shields.io/badge/compat-Claude%20·%20Codex%20·%20Antigravity%20·%20Cursor-4FD1C5)
 
+![bstack 그래피티 워드마크](assets/bstack-graffiti-transparent.png)
+
 ---
+
+## 만든 이유
+
+AI 하네스가 없는 프로젝트를 진행할 때마다 공통 작업 규칙과 문서 구조를 다시 만들어야 했습니다. 한동안 보지 않았던 프로젝트에서는 이미 정해 둔 컨벤션을 코드와 문서에서 다시 찾아 스킬로 옮기는 일도 반복했습니다.
+
+이 준비 과정이 번거로워 bstack을 만들었습니다. 공통 하네스 구조를 빠르게 적용하고, 프로젝트에서 다시 발견한 컨벤션을 스킬로 남겨 다음 작업에서도 그대로 이어 쓰는 것이 목적입니다.
 
 ## 주요 특징
 
 - **백엔드 스킬 20개** — 설계 · 구현 · 테스트 · 감사 · 관측 · 협업
+- **특정 버전에 종속되지 않는 구조** — 다른 Java/Spring 버전과 백엔드 프로젝트에도 공통 운영 방식 재사용
 - **CLAUDE.md / AGENTS.md 지원** — 여러 에이전트에서 동일한 규칙과 스킬 사용
 - **문제 정의 기반 멀티에이전트** — 태스크 수가 아닌 독립 작업 단위 기준으로 배치
 - **명확한 작업 분할 기준** — dependency DAG · 파일 소유권 · 위험 기반 리뷰

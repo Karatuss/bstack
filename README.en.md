@@ -1,3 +1,5 @@
+![bstack graffiti wordmark](assets/bstack-graffiti-transparent.png)
+
 # bstack — Java/Spring Boot Agent Harness
 
 > An agent harness for applying shared development rules and skills across Java and Spring Boot backend projects.
@@ -5,10 +7,6 @@
 > Its problem-definition and multi-agent workflows can also be reused in other backend projects; only the Spring-specific skills and examples need adapting.
 
 [한국어](README.md) · [English](README.en.md)
-
-![skills](https://img.shields.io/badge/skills-20-B794F4) ![license](https://img.shields.io/badge/license-MIT-48BB78) ![compat](https://img.shields.io/badge/compat-Claude%20·%20Codex%20·%20Antigravity%20·%20Cursor-4FD1C5)
-
-![bstack graffiti wordmark](assets/bstack-graffiti-transparent.png)
 
 ---
 

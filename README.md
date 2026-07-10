@@ -1,3 +1,5 @@
+![bstack 그래피티 워드마크](assets/bstack-graffiti-transparent.png)
+
 # bstack — Java/Spring Boot 에이전트 하네스
 
 > Java/Spring Boot 백엔드 프로젝트에 공통 개발 규칙과 스킬을 적용하기 위한 에이전트 하네스입니다.
@@ -5,10 +7,6 @@
 > 문제 정의와 멀티에이전트 운영 방식은 다른 백엔드 프로젝트에도 재사용할 수 있으며, Spring 전용 스킬과 예시만 프로젝트에 맞게 조정하면 됩니다.
 
 [한국어](README.md) · [English](README.en.md)
-
-![skills](https://img.shields.io/badge/skills-20-B794F4) ![license](https://img.shields.io/badge/license-MIT-48BB78) ![compat](https://img.shields.io/badge/compat-Claude%20·%20Codex%20·%20Antigravity%20·%20Cursor-4FD1C5)
-
-![bstack 그래피티 워드마크](assets/bstack-graffiti-transparent.png)
 
 ---
 

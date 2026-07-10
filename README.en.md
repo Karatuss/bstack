@@ -1,7 +1,7 @@
 # bstack — Java/Spring Boot Agent Harness
 
-> A shared harness for Claude Code, Codex, Cursor, and Antigravity teams using Java 21 and Spring Boot 3.x.
-> It connects problem definition, TDD, quantitative design, multi-agent delegation, and runtime observability into one development workflow.
+> An agent harness for teams building with Java 21 and Spring Boot 3.x.
+> It provides a shared set of development rules and skills for Claude Code, Codex, Cursor, and Antigravity.
 
 [한국어](README.md) · [English](README.en.md)
 
@@ -9,14 +9,14 @@
 
 ---
 
-## 5-Second Summary
+## Overview
 
-- **20 backend skills** — architecture, implementation, testing, auditing, observability, and collaboration
-- **CLAUDE.md / AGENTS.md support** — the same skills work across Claude Code, Codex, Cursor, and Antigravity
-- **Problem-driven multi-agent execution** — agents are allocated by independent workstream count, not task count
-- **Balanced decomposition** — vertical slices, dependency DAGs, file ownership, and risk-based review
-- **Ink setup wizard** — runs on Node 18+ and automatically falls back to bash elsewhere
-- **Spring runtime observability** — Actuator, Micrometer, JSON logging, and Slack alerting
+- **20 backend-focused skills** — architecture · implementation · testing · auditing · observability · collaboration
+- **CLAUDE.md / AGENTS.md support** — the same rules and skills across multiple coding agents
+- **Problem-driven multi-agent execution** — allocation by independent workstream, not task count
+- **Explicit decomposition rules** — dependency DAGs · file ownership · risk-based review
+- **Ink-based installer** — Node 18 or later, with automatic bash fallback
+- **Spring runtime observability** — Actuator · Micrometer · structured JSON logs · Slack alerts
 
 ## Quick Start
 
@@ -25,20 +25,20 @@ git clone https://github.com/Karatuss/bstack.git
 cd bstack && ./setup
 ```
 
-The setup wizard configures the following options.
+During setup, choose the following options.
 
 1. **Variant** — CLAUDE or AGENTS
 2. **Install mode** — Global symlink, Project symlink, or Project vendor
 3. **Skills** — select skills to install; all are selected by default
 4. **Confirm** — review target paths before installation
 
-Install into a specific project in vendor mode:
+To copy bstack into a specific project, provide the project path:
 
 ```bash
 cd bstack && ./setup --project=/path/to/your-spring-app
 ```
 
-## Variant Comparison
+## Installation Variants
 
 | | **CLAUDE** | **AGENTS** |
 |---|---|---|
@@ -47,9 +47,9 @@ cd bstack && ./setup --project=/path/to/your-spring-app
 | Skill directory | `.claude/skills/` | `.agents/skills/` |
 | Skill content | Identical | Identical |
 
-The variants differ only in their entry document and installation path. The internal `skills/` directory remains the single source of truth.
+The variants differ only in their entry document and installation path. Both use the same source files from the internal `skills/` directory.
 
-## Skills
+## Included Skills
 
 ### Discovery / Planning
 
@@ -67,34 +67,34 @@ The variants differ only in their entry document and installation path. The inte
 
 `/investigate` · `/writing-skills` · `/ship`
 
-Each `SKILL.md` uses YAML frontmatter and the `When`, `How`, `Decision tree`, and `References` structure.
+Each `SKILL.md` includes YAML frontmatter along with guidance on when to use the skill, how to run it, how to make key decisions, and where to find supporting material.
 
-## Multi-Agent Execution
+## How Multi-Agent Work Is Organized
 
-`/subagent-driven` does not create one agent per plan task. It first defines the problem, then delegates only independently executable work units.
+`/subagent-driven` does not create one agent for every task in a plan. It starts by clarifying the problem, then delegates only the work that can proceed independently.
 
-### 1. Define the Problem
+### 1. Start with a clear problem
 
-Confirm the following before delegation.
+Before delegating work, confirm the following:
 
 - Observed problem and supporting evidence
 - Goals and non-goals
 - Automatically verifiable success criteria
-- Performance, compatibility, security, and no-change constraints
+- Performance, compatibility, security, and areas that must remain untouched
 - Uncertainties that could change the implementation direction
 
-If success criteria cannot be verified or a critical uncertainty remains, do not create agents. Investigate or clarify the scope first.
+If the success criteria cannot be verified, or an open question could change the implementation approach, investigate or clarify the scope before creating agents.
 
-### 2. Decompose Work Units
+### 2. Define cohesive work units
 
-A work unit is a cohesive vertical slice that one agent can implement and verify within one context.
+A work unit should be small enough for one agent to implement and verify in a single context, while still producing a meaningful result.
 
-- Merge or serialize units that modify the same file or shared contract in the same wave
-- Merge small steps that cannot be verified independently
-- Split work when outcomes, file ownership, and verification paths are independent
-- Record `dependsOn`, `ownedFiles`, `acceptanceCriteria`, `verification`, `complexity`, and `risk`
+- Merge or serialize work that touches the same file or shared contract in the same wave.
+- Keep steps together when they cannot be verified on their own.
+- Split work only when the outcome, file ownership, and verification path are independent.
+- Record `dependsOn`, `ownedFiles`, `acceptanceCriteria`, `verification`, `complexity`, and `risk` for each unit.
 
-### 3. Calculate Agent Count
+### 3. Use only as many agents as the work needs
 
 ```text
 workerCount = min(
@@ -104,9 +104,9 @@ workerCount = min(
 )
 ```
 
-Always reserve one coordinator slot. The coordinator handles single units, same-file changes, and strongly sequential work directly. Parallel execution begins only when at least two independent workstreams exist.
+Always leave one slot available for the coordinator. The coordinator handles single units, changes centered on one file, and work with strict sequential dependencies. Parallel execution is used only when at least two workstreams can proceed independently.
 
-### 4. Execute Waves and Review
+### 4. Run and review work in dependency order
 
 ```text
 Problem definition
@@ -118,24 +118,24 @@ Problem definition
   → verify all success criteria
 ```
 
-The coordinator reviews low-risk changes during integration. Medium-risk changes use one independent reviewer. High-risk changes use up to two reviewers based on independent failure concerns.
+The coordinator reviews low-risk changes during integration. Medium-risk changes get one independent reviewer. High-risk changes may use up to two reviewers when separate concerns, such as security and data integrity, need focused attention.
 
 ## Development Principles
 
-1. **Think before coding** — establish the problem, evidence, and success criteria first
-2. **Simplicity first** — avoid abstraction until real duplication appears
-3. **Surgical changes** — separate changes outside the requested scope
-4. **Goal-driven execution** — every step must reduce the gap between current and desired state
-5. **Quantitative over vibes** — design with QPS, rows, fan-out, and p99 evidence
-6. **Successor-friendly** — build structures that a new teammate can continue maintaining
+1. **Think before coding** — establish the problem, evidence, and success criteria before changing code.
+2. **Simplicity first** — wait for real duplication before introducing an abstraction.
+3. **Surgical changes** — keep unrelated changes in separate work.
+4. **Goal-driven execution** — each step should move the current state closer to the intended outcome.
+5. **Quantitative over vibes** — use QPS, row counts, fan-out, and p99 as design inputs.
+6. **Successor-friendly** — leave code that a teammate can understand and maintain without prior context.
 
-Detailed principles: [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)
+See [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md) for the full set of principles.
 
-Anti-patterns: [docs/RED_FLAGS.md](docs/RED_FLAGS.md)
+Common anti-patterns are documented in [docs/RED_FLAGS.md](docs/RED_FLAGS.md).
 
 ## Runtime Observability
 
-`/observability` and [docs/OBSERVABILITY.md](docs/OBSERVABILITY.md) provide the following configuration for a target Spring project.
+`/observability` and [docs/OBSERVABILITY.md](docs/OBSERVABILITY.md) describe how to set up logging, monitoring, and alerts in a Spring project.
 
 - **Logging** — `logback-spring.xml`, `logstash-logback-encoder`, and MDC
 - **Monitoring** — Actuator, Micrometer, Prometheus, and JVM/HikariCP/HTTP dashboards
@@ -150,7 +150,7 @@ Presentation → Application → Domain
 Infrastructure → Domain
 ```
 
-`/arch-guard` and ArchUnit tests block the following violations.
+`/arch-guard` and ArchUnit tests check for the following architectural violations:
 
 - Direct Repository calls from Controllers
 - Exposing Entities directly in API responses
@@ -165,7 +165,7 @@ cd ~/.claude/skills/bstack
 git pull && ./setup
 ```
 
-For vendor installations, run `./setup --project=...` again with the target project path.
+For a vendor installation, run `./setup --project=...` again with the target project path.
 
 ## License
 

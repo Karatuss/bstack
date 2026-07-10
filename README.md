@@ -1,7 +1,7 @@
 # bstack — Java/Spring Boot 에이전트 하네스
 
-> Java 21 / Spring Boot 3.x 팀을 위한 Claude Code · Codex · Cursor · Antigravity 공용 하네스.
-> 문제 정의, TDD, 정량 지표, 멀티에이전트 분배, 런타임 관측을 하나의 개발 흐름으로 연결합니다.
+> Java 21과 Spring Boot 3.x를 사용하는 팀을 위한 에이전트 하네스입니다.
+> Claude Code, Codex, Cursor, Antigravity에서 같은 개발 규칙과 스킬을 사용할 수 있습니다.
 
 [한국어](README.md) · [English](README.en.md)
 
@@ -9,14 +9,14 @@
 
 ---
 
-## 5초 요약
+## 주요 특징
 
-- **20개 백엔드 skill** — 설계, 구현, 테스트, 감사, 관측, 협업
-- **CLAUDE.md / AGENTS.md 지원** — Claude Code부터 Codex, Cursor, Antigravity까지 동일한 skill 사용
-- **문제 정의 기반 멀티에이전트** — 작업 수가 아닌 독립 workstream 수에 맞춰 agent 배치
-- **과소·과대 분할 방지** — vertical slice, dependency DAG, 파일 소유권, 위험 기반 리뷰
-- **Ink 설치 마법사** — Node 18+ 환경에서 실행, 미지원 환경은 bash로 자동 전환
-- **Spring 런타임 관측** — Actuator, Micrometer, JSON logging, Slack alerting
+- **백엔드 스킬 20개** — 설계 · 구현 · 테스트 · 감사 · 관측 · 협업
+- **CLAUDE.md / AGENTS.md 지원** — 여러 에이전트에서 동일한 규칙과 스킬 사용
+- **문제 정의 기반 멀티에이전트** — 태스크 수가 아닌 독립 작업 단위 기준으로 배치
+- **명확한 작업 분할 기준** — dependency DAG · 파일 소유권 · 위험 기반 리뷰
+- **Ink 설치 도구** — Node 18 이상 지원, 미지원 환경에서는 bash로 자동 전환
+- **Spring 런타임 관측** — Actuator · Micrometer · JSON 로그 · Slack 알림
 
 ## 빠른 시작
 
@@ -25,31 +25,31 @@ git clone https://github.com/Karatuss/bstack.git
 cd bstack && ./setup
 ```
 
-설치 마법사가 다음 항목을 설정합니다.
+설치 과정에서 다음 항목을 선택합니다.
 
 1. **Variant** — CLAUDE 또는 AGENTS
 2. **Install mode** — Global symlink, Project symlink, Project vendor
-3. **Skills** — 설치할 skill 선택, 기본값은 전체
+3. **Skills** — 설치할 스킬 선택, 기본값은 전체
 4. **Confirm** — 변경 경로 확인 후 설치
 
-특정 프로젝트에 vendor 방식으로 설치:
+특정 프로젝트에 파일을 직접 복사하려면 프로젝트 경로를 지정합니다.
 
 ```bash
 cd bstack && ./setup --project=/path/to/your-spring-app
 ```
 
-## Variant 비교
+## 설치 구성 비교
 
 | | **CLAUDE** | **AGENTS** |
 |---|---|---|
 | 호환 에이전트 | Claude Code | Codex · Cursor · Antigravity · Gemini CLI · OpenCode |
 | 진입 문서 | `CLAUDE.md` | `AGENTS.md` |
-| skill 디렉터리 | `.claude/skills/` | `.agents/skills/` |
-| skill 내용 | 동일 | 동일 |
+| 스킬 디렉터리 | `.claude/skills/` | `.agents/skills/` |
+| 스킬 내용 | 동일 | 동일 |
 
-두 variant는 진입 문서와 설치 경로만 다릅니다. 내부 `skills/`는 단일 소스로 관리합니다.
+두 구성은 진입 문서와 설치 경로만 다릅니다. 실제 스킬은 내부 `skills/` 디렉터리에서 함께 관리합니다.
 
-## Skills
+## 제공하는 스킬
 
 ### 탐색 / 계획
 
@@ -67,15 +67,15 @@ cd bstack && ./setup --project=/path/to/your-spring-app
 
 `/investigate` · `/writing-skills` · `/ship`
 
-각 `SKILL.md`는 YAML frontmatter와 `When`, `How`, `Decision tree`, `References` 구조를 사용합니다.
+각 `SKILL.md`에는 YAML frontmatter와 사용 시점, 실행 방법, 판단 기준, 참고 문서가 정리되어 있습니다.
 
-## 멀티에이전트 실행
+## 멀티에이전트로 작업하는 방식
 
-`/subagent-driven`은 계획의 태스크 수만큼 agent를 생성하지 않습니다. 먼저 문제를 확정하고, 독립 실행 가능한 work unit만 분배합니다.
+`/subagent-driven`은 계획에 적힌 태스크 수만큼 에이전트를 생성하지 않습니다. 해결할 문제를 먼저 분명히 한 뒤, 서로 방해하지 않고 진행할 수 있는 작업만 나눠 맡깁니다.
 
-### 1. 문제 정의
+### 1. 문제를 먼저 분명히 합니다
 
-분배 전 다음 항목을 확정합니다.
+작업을 나누기 전에 다음 내용을 확인합니다.
 
 - 관찰된 문제와 근거
 - 목표와 비목표
@@ -83,18 +83,18 @@ cd bstack && ./setup --project=/path/to/your-spring-app
 - 성능, 호환성, 보안, 변경 금지 영역
 - 구현 방향에 영향을 주는 불확실성
 
-성공 기준을 검증할 수 없거나 핵심 불확실성이 남으면 agent를 생성하지 않습니다. 조사 또는 범위 확정을 먼저 진행합니다.
+완료 여부를 판단할 수 없거나 구현 방향을 바꿀 만한 불확실성이 남아 있다면 바로 에이전트를 만들지 않습니다. 필요한 조사나 범위 합의를 먼저 진행합니다.
 
-### 2. Work unit 분해
+### 2. 작업 단위를 나눕니다
 
-work unit은 한 agent가 하나의 컨텍스트에서 구현하고 검증할 수 있는 응집된 vertical slice입니다.
+작업 단위(work unit)는 한 에이전트가 하나의 컨텍스트 안에서 구현부터 검증까지 끝낼 수 있는 범위로 잡습니다.
 
-- 같은 wave에서 동일 파일이나 공유 계약을 수정하면 병합 또는 순차 실행
-- 단독 검증할 수 없는 작은 단계는 병합
-- 독립된 결과, 파일 소유권, 검증 경로가 있으면 분리
-- `dependsOn`, `ownedFiles`, `acceptanceCriteria`, `verification`, `complexity`, `risk` 명시
+- 같은 실행 단계(wave)에서 동일한 파일이나 공통 계약을 수정한다면 하나로 합치거나 순서대로 실행합니다.
+- 따로 검증할 수 없을 만큼 작은 단계는 같은 작업 단위에 포함합니다.
+- 결과와 파일 소유권, 검증 방법이 서로 독립적일 때만 분리합니다.
+- 각 작업에 `dependsOn`, `ownedFiles`, `acceptanceCriteria`, `verification`, `complexity`, `risk`를 기록합니다.
 
-### 3. Agent 수 산정
+### 3. 필요한 에이전트 수를 정합니다
 
 ```text
 workerCount = min(
@@ -104,9 +104,9 @@ workerCount = min(
 )
 ```
 
-coordinator 슬롯 1개를 항상 보존합니다. 단일 작업, 동일 파일 중심 변경, 강한 순차 의존 작업은 coordinator가 직접 처리합니다. 독립 workstream이 2개 이상일 때만 병렬화합니다.
+전체 흐름을 조율할 coordinator 자리 하나는 항상 남겨 둡니다. 작업이 하나뿐이거나 같은 파일을 계속 수정해야 하는 경우, 앞선 작업이 끝나야 다음 작업을 시작할 수 있는 경우에는 coordinator가 직접 처리합니다. 동시에 진행할 수 있는 작업이 두 개 이상일 때만 에이전트를 병렬로 배치합니다.
 
-### 4. Wave 실행과 리뷰
+### 4. 의존성 순서대로 실행하고 검토합니다
 
 ```text
 문제 정의
@@ -118,16 +118,16 @@ coordinator 슬롯 1개를 항상 보존합니다. 단일 작업, 동일 파일 
   → 전체 성공 기준 검증
 ```
 
-저위험 변경은 coordinator가 통합 리뷰합니다. 중위험은 독립 reviewer 1명, 고위험은 실패 축에 따라 최대 2명의 reviewer를 사용합니다.
+영향이 작은 변경은 coordinator가 통합 과정에서 확인합니다. 중간 수준의 위험이 있다면 별도의 검토 에이전트 한 명을 배정합니다. 보안과 데이터 무결성처럼 서로 다른 위험을 따로 살펴야 한다면 검토 에이전트를 최대 두 명까지 배정합니다.
 
 ## 개발 원칙
 
-1. **Think before coding** — 문제, 근거, 성공 기준을 먼저 확정
-2. **Simplicity first** — 실제 중복이 나타나기 전 추상화 금지
-3. **Surgical changes** — 요청 범위 밖 변경은 분리
-4. **Goal-driven execution** — 각 단계가 목표와 현재 상태의 차이를 줄여야 함
-5. **Quantitative over vibes** — QPS, row, fan-out, p99를 근거로 설계
-6. **Successor-friendly** — 처음 보는 동료가 이어받을 수 있는 구조
+1. **Think before coding** — 코드를 쓰기 전에 문제와 근거, 성공 기준부터 확인합니다.
+2. **Simplicity first** — 실제로 반복되는 구조가 보이기 전에는 추상화를 서두르지 않습니다.
+3. **Surgical changes** — 요청 범위를 벗어난 변경은 별도 작업으로 분리합니다.
+4. **Goal-driven execution** — 모든 단계는 현재 상태를 목표에 더 가깝게 만들어야 합니다.
+5. **Quantitative over vibes** — QPS, row 수, fan-out, p99 같은 수치를 설계 근거로 사용합니다.
+6. **Successor-friendly** — 처음 코드를 보는 동료도 이어서 관리할 수 있는 구조를 지향합니다.
 
 상세 원칙: [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)
 
@@ -135,11 +135,11 @@ coordinator 슬롯 1개를 항상 보존합니다. 단일 작업, 동일 파일 
 
 ## 런타임 관측
 
-`/observability`와 [docs/OBSERVABILITY.md](docs/OBSERVABILITY.md)는 대상 Spring 프로젝트에 다음 구성을 제공합니다.
+`/observability`와 [docs/OBSERVABILITY.md](docs/OBSERVABILITY.md)에서 Spring 프로젝트의 로그, 모니터링, 알림 구성을 확인할 수 있습니다.
 
-- **Logging** — `logback-spring.xml`, `logstash-logback-encoder`, MDC
-- **Monitoring** — Actuator, Micrometer, Prometheus, JVM/HikariCP/HTTP dashboard
-- **Alerting** — Alertmanager → Slack webhook 또는 애플리케이션 내부 `SlackNotifier`
+- **로깅** — `logback-spring.xml`, `logstash-logback-encoder`, MDC
+- **모니터링** — Actuator, Micrometer, Prometheus, JVM/HikariCP/HTTP 대시보드
+- **알림** — Alertmanager → Slack webhook 또는 애플리케이션 내부 `SlackNotifier`
 
 기본 임계치 예시: 에러율 `> 1%/5m`, p99 `> 500ms/5m`, HikariCP 대기 `> 100ms`.
 
@@ -150,7 +150,7 @@ Presentation → Application → Domain
 Infrastructure → Domain
 ```
 
-다음 위반은 `/arch-guard`와 ArchUnit 테스트로 차단합니다.
+`/arch-guard`와 ArchUnit 테스트로 다음과 같은 구조 위반을 확인합니다.
 
 - Controller에서 Repository 직접 호출
 - Entity를 API 응답으로 직접 노출
@@ -165,7 +165,7 @@ cd ~/.claude/skills/bstack
 git pull && ./setup
 ```
 
-vendor 설치는 대상 프로젝트 경로와 함께 `./setup --project=...`을 다시 실행합니다.
+vendor 방식으로 설치했다면 대상 프로젝트 경로를 지정해 `./setup --project=...`을 다시 실행합니다.
 
 ## 라이선스
 
